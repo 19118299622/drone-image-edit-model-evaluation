@@ -17,7 +17,8 @@
 - BAGEL 运行硬件：NVIDIA RTX 4070 Ti Super 16GB。
 - BAGEL 单次图像编辑耗时：约 75 秒。
 - Qwen-Image-Edit 当前测试平台：ModelScope 魔搭社区在线体验。
-- 除 BAGEL 外，其他模型当前只完成资料调研或等待在线/服务器测试。
+- HunyuanImage-3-Instruct 当前测试平台：腾讯混元官网在线体验。
+- 当前已具备记录的实际测试方式包括：BAGEL 本地测试、Qwen-Image-Edit ModelScope 在线测试、HunyuanImage-3-Instruct 腾讯混元官网在线测试。
 
 ## 测试用例
 
@@ -44,7 +45,8 @@
 已记录实际测试条件：
 
 - BAGEL：本地 NF4，RTX 4070 Ti Super 16GB，约 75 秒/次；当前仓库未提供输出图片文件。
-- Qwen-Image-Edit：ModelScope 魔搭社区在线体验；当前仓库未提供输出图片文件或截图。
+- Qwen-Image-Edit：ModelScope 魔搭社区在线体验；当前仓库已提供输出图片文件。
+- HunyuanImage-3-Instruct：腾讯混元官网在线体验；当前仓库已提供输出图片文件。
 
 待测试或仅资料调研：
 
@@ -52,7 +54,6 @@
 - Step1X-Edit
 - OmniGen2
 - FireRed-Image-Edit
-- HunyuanImage-3.0 Instruct / Image-to-Image
 
 ## 目录约定
 
@@ -62,6 +63,7 @@ inputs/
 ├── reference_outputs/      # 参考效果图片
 └── current_outputs/        # 模型实际输出或在线测试截图
     ├── bagel/
+    ├── hunyuanimage3-instruct/
     └── qwen-image-edit/
 
 docs/image_edit_model_evaluation/
@@ -107,8 +109,23 @@ qwen_image_edit_modelscope_TCxx_YYYYMMDD.png
 
 ## Prompt 版本
 
-每个 Prompt 文件内维护版本号和修改记录。变更 Prompt 后，应在实验记录中引用对应文件路径。
+统一 Prompt 主定义位于 `docs/image_edit_model_evaluation/TEST_PROTOCOL.md` 的“统一 Prompt 规范”章节。基础任务共享 Prompt 放在 `prompts/BASIC_TASK_PROMPTS.md`，优化任务共享 Prompt 放在 `prompts/OPTIMIZED_TASK_PROMPTS.md`。四个 `prompts/TCxx_*.md` 文件只记录各测试用例的差异说明。
+
+使用方式：
+
+1. 需要全局同步修改 Prompt 时，只编辑统一 Prompt 主定义。
+2. 需要为 `TC-01` 或 `TC-03` 新增测试 Prompt 时，只编辑 `prompts/BASIC_TASK_PROMPTS.md`。
+3. 需要为 `TC-02` 或 `TC-04` 新增测试 Prompt 时，只编辑 `prompts/OPTIMIZED_TASK_PROMPTS.md`。
+4. 中文阅读版只用于你自己阅读和复核，真正输入模型的是英文实际输入版。
+5. 变更 Prompt 后，在 `experiment_records.csv` 中填写对应的 `prompt_id`、`prompt_version` 和结果图路径。
+
+为了尽量不让你处理 Markdown 语法，Prompt 文件已经改成固定槽位模板。正常使用时只需要替换 `待填写`，不需要新增标题、列表或链接语法。
 
 ## 评分状态
 
 当前尚未建立统一评分体系，不输出综合分和模型排名。当前结果以可视化对比和定性观察为主。
+
+## 当前记录边界
+
+- 当前三个模型的输出图片格式不一致，仓库按实际格式保留：`webp`、`png`、`jpeg`。
+- 当前每次生成的详细推理参数未单独记录，统一视为默认参数。

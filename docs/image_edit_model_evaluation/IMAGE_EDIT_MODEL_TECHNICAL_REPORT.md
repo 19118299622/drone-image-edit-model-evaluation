@@ -20,25 +20,23 @@
 12. [其他候选模型调研](#12-其他候选模型调研)
 13. [测试方式](#13-测试方式)
 14. [Prompt 设计](#14-prompt-设计)
-15. [BAGEL 本地测试结果](#15-bagel-本地测试结果)
-16. [Qwen-Image-Edit ModelScope 在线测试结果](#16-qwen-image-edit-modelscope-在线测试结果)
-17. [规则建筑结果对比](#17-规则建筑结果对比)
-18. [异形建筑结果对比](#18-异形建筑结果对比)
-19. [基础任务与优化任务对比](#19-基础任务与优化任务对比)
-20. [推理速度与部署条件](#20-推理速度与部署条件)
-21. [当前定性观察](#21-当前定性观察)
-22. [生成式图像编辑方案的优势](#22-生成式图像编辑方案的优势)
-23. [生成式图像编辑方案的局限](#23-生成式图像编辑方案的局限)
-24. [替代或混合技术路线](#24-替代或混合技术路线)
-25. [当前结论](#25-当前结论)
-26. [后续工作](#26-后续工作)
-27. [参考资料](#27-参考资料)
+15. [实际测试结果展示](#15-实际测试结果展示)
+16. [规则建筑结果对比](#16-规则建筑结果对比)
+17. [异形建筑结果对比](#17-异形建筑结果对比)
+18. [基础任务与优化任务对比](#18-基础任务与优化任务对比)
+19. [推理速度与部署条件](#19-推理速度与部署条件)
+20. [生成式图像编辑方案的优势](#20-生成式图像编辑方案的优势)
+21. [生成式图像编辑方案的局限](#21-生成式图像编辑方案的局限)
+22. [替代或混合技术路线](#22-替代或混合技术路线)
+23. [当前说明](#23-当前说明)
+24. [后续工作](#24-后续工作)
+25. [参考资料](#25-参考资料)
 
 ## 1. 摘要
 
 本报告评估开放权重图像编辑模型在“给建筑图片叠加无人机扫描航线示意图”任务中的可行性。当前阶段不是严格学术 benchmark，不输出综合分或模型排名，重点是建立可持续维护的 Markdown 报告结构，展示输入图片、Prompt、参考效果、模型输出位置、测试方式和已知限制。
 
-当前已知：BAGEL NF4 可在本地 NVIDIA RTX 4070 Ti Super 16GB 上完成图像编辑，单次约 75 秒；Qwen-Image-Edit 当前通过 ModelScope 魔搭社区在线体验测试。当前仓库未提供 BAGEL 或 Qwen-Image-Edit 的实际输出图片文件，因此本版报告只展示原始图片与参考效果，并为模型输出保留明确位置。
+当前已知：BAGEL NF4 可在本地 NVIDIA RTX 4070 Ti Super 16GB 上完成图像编辑，单次约 75 秒；Qwen-Image-Edit 当前通过 ModelScope 魔搭社区在线体验测试；HunyuanImage-3-Instruct 当前通过腾讯混元官网在线体验测试。当前仓库未提供这三个模型的实际输出图片文件，因此本版报告只展示原始图片与参考效果，并为模型输出保留明确位置。
 
 ## 2. 项目背景
 
@@ -122,11 +120,11 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | BAGEL | ByteDance-Seed | 是 | 是 | Apache-2.0 | 本地 NF4 | 已本地测试 |
 | Qwen-Image-Edit | Qwen / Alibaba | 是 | 是 | Apache-2.0 | ModelScope 在线体验 | 已在线测试 |
+| HunyuanImage-3-Instruct | Tencent Hunyuan | 是 | 是 | 待确认 | 腾讯混元官网在线体验 | 已在线测试 |
 | FLUX.1 Kontext [dev] | Black Forest Labs | 是 | 是 | FLUX.1 [dev] Non-Commercial License | 资料调研 | 仅完成资料调研 |
 | Step1X-Edit | StepFun AI | 是 | 是 | Apache-2.0 | 资料调研 | 仅完成资料调研 |
 | OmniGen2 | VectorSpaceLab / BAAI 相关项目 | 是，待接口复核 | 是 | Apache-2.0 | 资料调研 | 仅完成资料调研 |
 | FireRed-Image-Edit | FireRedTeam | 是 | 是 | Apache-2.0 | 资料调研 | 仅完成资料调研 |
-| HunyuanImage | Tencent Hunyuan | Instruct / Image-to-Image 待测试 | 是 | 待确认 | 资料调研 | 仅完成资料调研 |
 
 不要将“开放权重”等同于“允许商业使用”。商业使用状态需要按官方许可证和公司合规要求复核。
 
@@ -134,13 +132,26 @@
 
 详细记录见 [model_notes/BAGEL.md](model_notes/BAGEL.md)。
 
+官方详情：
+
+- GitHub：https://github.com/ByteDance-Seed/Bagel
+- Hugging Face：https://huggingface.co/ByteDance-Seed/BAGEL-7B-MoT
+
 BAGEL 是 ByteDance-Seed 发布的统一多模态理解与生成模型，支持图像编辑。本项目当前使用本地 NF4 量化版本，在 NVIDIA RTX 4070 Ti Super 16GB 上单次图像编辑约 75 秒。仍待确认推理步数、Guidance、分辨率、CPU offload、峰值显存和重复运行平均耗时。
 
 ## 11. Qwen-Image-Edit 模型说明
 
 详细记录见 [model_notes/QWEN_IMAGE_EDIT.md](model_notes/QWEN_IMAGE_EDIT.md)。
 
+官方详情：
+
+- GitHub：https://github.com/QwenLM/Qwen-Image
+- Hugging Face：https://huggingface.co/Qwen/Qwen-Image-Edit
+- ModelScope：https://modelscope.cn/models/Qwen/Qwen-Image-Edit
+
 Qwen-Image-Edit 当前测试方式必须写为 ModelScope 魔搭社区在线体验。当前不能写成 Hugging Face Inference Providers 或 fal。在线体验的服务端硬件、精度、量化方式、推理框架、排队情况和纯模型推理时间均待确认。
+
+如果后续确认当前测试版本为 Qwen-Image-Edit-2511，建议在模型说明中同时记录“参数规模约 20B”和“官方完整权重文件总体积约 57 GB”。前者用于描述模型规模，后者用于描述下载和部署门槛，两者不能混写为同一指标。
 
 ## 12. 其他候选模型调研
 
@@ -152,7 +163,7 @@ Qwen-Image-Edit 当前测试方式必须写为 ModelScope 魔搭社区在线体�
 - [FIRERED_IMAGE_EDIT.md](model_notes/FIRERED_IMAGE_EDIT.md)
 - [HUNYUAN_IMAGE_EDIT.md](model_notes/HUNYUAN_IMAGE_EDIT.md)
 
-这些模型当前未在本项目素材上完成测试，不生成效果结论。
+除 HunyuanImage-3-Instruct 外，这些模型当前未在本项目素材上完成测试，不生成效果结论。
 
 ## 13. 测试方式
 
@@ -160,198 +171,268 @@ Qwen-Image-Edit 当前测试方式必须写为 ModelScope 魔搭社区在线体�
 
 ## 14. Prompt 设计
 
-四个 Prompt 文件：
+统一 Prompt 主定义以 [TEST_PROTOCOL.md](TEST_PROTOCOL.md) 中的“统一 Prompt 规范”为准。后续若需要同步修改所有测试用例共享的 Prompt 文本、固定约束或禁用项，只修改该处。
 
-- [TC01_regular_building_basic.md](prompts/TC01_regular_building_basic.md)
-- [TC02_regular_building_optimized.md](prompts/TC02_regular_building_optimized.md)
-- [TC03_irregular_building_basic.md](prompts/TC03_irregular_building_basic.md)
-- [TC04_irregular_building_optimized.md](prompts/TC04_irregular_building_optimized.md)
+Prompt 文件组织方式：
 
-Prompt 明确要求区分地面环绕路线、水平扫描路线、垂直连接路线、主扫描路线、辅助路线、顶部补扫、起点、终点、方向箭头和探测覆盖范围，并禁止重绘天空、改变建筑材料、改变门窗、改变车辆人物、改变背景建筑、随机生成多余路线或删除原图内容。
+- [BASIC_TASK_PROMPTS.md](prompts/BASIC_TASK_PROMPTS.md)：基础任务共享 Prompt，供 TC-01 与 TC-03 共用。
+- [OPTIMIZED_TASK_PROMPTS.md](prompts/OPTIMIZED_TASK_PROMPTS.md)：优化任务共享 Prompt，供 TC-02 与 TC-04 共用。
+- [TC01_regular_building_basic.md](prompts/TC01_regular_building_basic.md)：TC-01 差异说明。
+- [TC02_regular_building_optimized.md](prompts/TC02_regular_building_optimized.md)：TC-02 差异说明。
+- [TC03_irregular_building_basic.md](prompts/TC03_irregular_building_basic.md)：TC-03 差异说明。
+- [TC04_irregular_building_optimized.md](prompts/TC04_irregular_building_optimized.md)：TC-04 差异说明。
 
-## 15. BAGEL 本地测试结果
+使用方式：
 
-当前记录：已本地测试，BAGEL NF4，NVIDIA RTX 4070 Ti Super 16GB，单次约 75 秒。当前仓库未提供 BAGEL 输出图片文件，因此以下章节保留输出位置。
+1. 先读取 `TEST_PROTOCOL.md` 中的统一 Prompt 主模板。
+2. 对基础任务读取 `BASIC_TASK_PROMPTS.md`，对优化任务读取 `OPTIMIZED_TASK_PROMPTS.md`。
+3. 再读取对应 `TCxx` 文件中的差异说明。
+4. 中文阅读版用于复核，英文实际输入版用于模型测试。
+5. 将统一 Prompt 主模板、共享任务 Prompt 与 case 差异说明组合为实际测试输入。
 
-### TC-01
+这样可以保证未来只维护一个统一 Prompt 主文件，同时支持同一测试用例下的多个 Prompt 版本对比。
 
-原始图片：
+## 15. 实际测试结果展示
 
-![TC-01 输入](../../inputs/source_images/regular_building_input.jpg)
+当前已接入三种模型的实际输出图：
 
-测试 Prompt：[TC01_regular_building_basic.md](prompts/TC01_regular_building_basic.md)
+- BAGEL：本地 NF4，默认参数未单独记录，输出格式为 `webp`。
+- Qwen-Image-Edit：ModelScope 魔搭社区在线体验，默认参数未单独记录，输出格式为 `png`。
+- HunyuanImage-3-Instruct：腾讯混元官网在线体验，默认参数未单独记录，输出格式为 `jpeg`。
 
-参考效果：
+三种模型的输出格式和分辨率当前不一致，报告阶段按原始导出结果保留，不做统一转码。
 
-![TC-01 参考效果](../../inputs/reference_outputs/TC01_reference.png)
+已测试模型官方详情：
 
-BAGEL 输出：当前未在仓库中找到，等待补充到 `../../inputs/current_outputs/bagel/`。
+- BAGEL：GitHub `https://github.com/ByteDance-Seed/Bagel`，Hugging Face `https://huggingface.co/ByteDance-Seed/BAGEL-7B-MoT`
+- Qwen-Image-Edit：GitHub `https://github.com/QwenLM/Qwen-Image`，Hugging Face `https://huggingface.co/Qwen/Qwen-Image-Edit`
+- HunyuanImage-3-Instruct：GitHub `https://github.com/Tencent-Hunyuan/HunyuanImage-3.0`，腾讯混元官网在线体验
 
-结果观察：当前无法对图片效果做结论。
-
-### TC-02
-
-原始图片：
-
-![TC-02 输入](../../inputs/source_images/regular_building_input.jpg)
-
-测试 Prompt：[TC02_regular_building_optimized.md](prompts/TC02_regular_building_optimized.md)
-
-参考效果：
-
-![TC-02 参考效果](../../inputs/reference_outputs/TC02_reference.png)
-
-BAGEL 输出：当前未在仓库中找到，等待补充到 `../../inputs/current_outputs/bagel/`。
-
-结果观察：当前无法对图片效果做结论。
-
-### TC-03
-
-原始图片：
-
-![TC-03 输入](../../inputs/source_images/irregular_building_input.jpg)
-
-测试 Prompt：[TC03_irregular_building_basic.md](prompts/TC03_irregular_building_basic.md)
-
-参考效果：
-
-![TC-03 参考效果](../../inputs/reference_outputs/TC03_reference.png)
-
-BAGEL 输出：当前未在仓库中找到，等待补充到 `../../inputs/current_outputs/bagel/`。
-
-结果观察：当前无法对图片效果做结论。
-
-### TC-04
-
-原始图片：
-
-![TC-04 输入](../../inputs/source_images/irregular_building_input.jpg)
-
-测试 Prompt：[TC04_irregular_building_optimized.md](prompts/TC04_irregular_building_optimized.md)
-
-参考效果：
-
-![TC-04 参考效果](../../inputs/reference_outputs/TC04_reference.png)
-
-BAGEL 输出：当前未在仓库中找到，等待补充到 `../../inputs/current_outputs/bagel/`。
-
-结果观察：当前无法对图片效果做结论。
-
-## 16. Qwen-Image-Edit ModelScope 在线测试结果
-
-当前记录：已通过 ModelScope 魔搭社区在线体验测试。服务端 GPU、精度、量化方式、推理框架、排队情况和纯模型推理时间未知。当前仓库未提供输出图片或页面截图。
-
-### TC-01
+### TC-01 / 直译版
 
 原始图片：
 
 ![TC-01 输入](../../inputs/source_images/regular_building_input.jpg)
 
-测试 Prompt：[TC01_regular_building_basic.md](prompts/TC01_regular_building_basic.md)
+参考效果：
+
+![TC-01 参考效果](../../inputs/reference_outputs/TC01_reference.png)
+
+BAGEL：
+
+![TC-01 直译版 BAGEL](../../inputs/current_outputs/bagel/TC01_BASIC_P01_bagel_R01.webp)
+
+Qwen-Image-Edit：
+
+![TC-01 直译版 Qwen](../../inputs/current_outputs/qwen-image-edit/TC01_BASIC_P01_qwen_R01.png)
+
+HunyuanImage-3-Instruct：
+
+![TC-01 直译版 Hunyuan](../../inputs/current_outputs/hunyuanimage3-instruct/TC01_BASIC_P01_hunyuan_R01.jpeg)
+
+### TC-01 / 针对图像编辑模型优化版
+
+原始图片：
+
+![TC-01 输入](../../inputs/source_images/regular_building_input.jpg)
 
 参考效果：
 
 ![TC-01 参考效果](../../inputs/reference_outputs/TC01_reference.png)
 
-Qwen-Image-Edit 输出：当前未在仓库中找到，等待补充到 `../../inputs/current_outputs/qwen-image-edit/`。
+BAGEL：
 
-### TC-02
+![TC-01 优化版 BAGEL](../../inputs/current_outputs/bagel/TC01_BASIC_P02_bagel_R01.webp)
+
+Qwen-Image-Edit：
+
+![TC-01 优化版 Qwen](../../inputs/current_outputs/qwen-image-edit/TC01_BASIC_P02_qwen_R01.png)
+
+HunyuanImage-3-Instruct：
+
+![TC-01 优化版 Hunyuan](../../inputs/current_outputs/hunyuanimage3-instruct/TC01_BASIC_P02_hunyuan_R01.jpeg)
+
+### TC-02 / 直译版
 
 原始图片：
 
 ![TC-02 输入](../../inputs/source_images/regular_building_input.jpg)
 
-测试 Prompt：[TC02_regular_building_optimized.md](prompts/TC02_regular_building_optimized.md)
+参考效果：
+
+![TC-02 参考效果](../../inputs/reference_outputs/TC02_reference.png)
+
+BAGEL：
+
+![TC-02 直译版 BAGEL](../../inputs/current_outputs/bagel/TC02_OPT_P01_bagel_R01.webp)
+
+Qwen-Image-Edit：
+
+![TC-02 直译版 Qwen](../../inputs/current_outputs/qwen-image-edit/TC02_OPT_P01_qwen_R01.png)
+
+HunyuanImage-3-Instruct：
+
+![TC-02 直译版 Hunyuan](../../inputs/current_outputs/hunyuanimage3-instruct/TC02_OPT_P01_hunyuan_R01.jpeg)
+
+### TC-02 / 针对图像编辑模型优化版
+
+原始图片：
+
+![TC-02 输入](../../inputs/source_images/regular_building_input.jpg)
 
 参考效果：
 
 ![TC-02 参考效果](../../inputs/reference_outputs/TC02_reference.png)
 
-Qwen-Image-Edit 输出：当前未在仓库中找到，等待补充到 `../../inputs/current_outputs/qwen-image-edit/`。
+BAGEL：
 
-### TC-03
+![TC-02 优化版 BAGEL](../../inputs/current_outputs/bagel/TC02_OPT_P02_bagel_R01.webp)
+
+Qwen-Image-Edit：
+
+![TC-02 优化版 Qwen](../../inputs/current_outputs/qwen-image-edit/TC02_OPT_P02_qwen_R01.png)
+
+HunyuanImage-3-Instruct：
+
+![TC-02 优化版 Hunyuan](../../inputs/current_outputs/hunyuanimage3-instruct/TC02_OPT_P02_hunyuan_R01.jpeg)
+
+### TC-03 / 直译版
 
 原始图片：
 
 ![TC-03 输入](../../inputs/source_images/irregular_building_input.jpg)
 
-测试 Prompt：[TC03_irregular_building_basic.md](prompts/TC03_irregular_building_basic.md)
+参考效果：
+
+![TC-03 参考效果](../../inputs/reference_outputs/TC03_reference.png)
+
+BAGEL：
+
+![TC-03 直译版 BAGEL](../../inputs/current_outputs/bagel/TC03_BASIC_P01_bagel_R01.webp)
+
+Qwen-Image-Edit：
+
+![TC-03 直译版 Qwen](../../inputs/current_outputs/qwen-image-edit/TC03_BASIC_P01_qwen_R01.png)
+
+HunyuanImage-3-Instruct：
+
+![TC-03 直译版 Hunyuan](../../inputs/current_outputs/hunyuanimage3-instruct/TC03_BASIC_P01_hunyuan_R01.jpeg)
+
+### TC-03 / 针对图像编辑模型优化版
+
+原始图片：
+
+![TC-03 输入](../../inputs/source_images/irregular_building_input.jpg)
 
 参考效果：
 
 ![TC-03 参考效果](../../inputs/reference_outputs/TC03_reference.png)
 
-Qwen-Image-Edit 输出：当前未在仓库中找到，等待补充到 `../../inputs/current_outputs/qwen-image-edit/`。
+BAGEL：
 
-### TC-04
+![TC-03 优化版 BAGEL](../../inputs/current_outputs/bagel/TC03_BASIC_P02_bagel_R01.webp)
+
+Qwen-Image-Edit：
+
+![TC-03 优化版 Qwen](../../inputs/current_outputs/qwen-image-edit/TC03_BASIC_P02_qwen_R01.png)
+
+HunyuanImage-3-Instruct：
+
+![TC-03 优化版 Hunyuan](../../inputs/current_outputs/hunyuanimage3-instruct/TC03_BASIC_P02_hunyuan_R01.jpeg)
+
+### TC-04 / 直译版
 
 原始图片：
 
 ![TC-04 输入](../../inputs/source_images/irregular_building_input.jpg)
 
-测试 Prompt：[TC04_irregular_building_optimized.md](prompts/TC04_irregular_building_optimized.md)
+参考效果：
+
+![TC-04 参考效果](../../inputs/reference_outputs/TC04_reference.png)
+
+BAGEL：
+
+![TC-04 直译版 BAGEL](../../inputs/current_outputs/bagel/TC04_OPT_P01_bagel_R01.webp)
+
+Qwen-Image-Edit：
+
+![TC-04 直译版 Qwen](../../inputs/current_outputs/qwen-image-edit/TC04_OPT_P01_qwen_R01.png)
+
+HunyuanImage-3-Instruct：
+
+![TC-04 直译版 Hunyuan](../../inputs/current_outputs/hunyuanimage3-instruct/TC04_OPT_P01_hunyuan_R01.jpeg)
+
+### TC-04 / 针对图像编辑模型优化版
+
+原始图片：
+
+![TC-04 输入](../../inputs/source_images/irregular_building_input.jpg)
 
 参考效果：
 
 ![TC-04 参考效果](../../inputs/reference_outputs/TC04_reference.png)
 
-Qwen-Image-Edit 输出：当前未在仓库中找到，等待补充到 `../../inputs/current_outputs/qwen-image-edit/`。
+BAGEL：
 
-## 17. 规则建筑结果对比
+![TC-04 优化版 BAGEL](../../inputs/current_outputs/bagel/TC04_OPT_P02_bagel_R01.webp)
 
-当前可展示内容包括 TC-01、TC-02 原始图和参考效果。BAGEL 与 Qwen-Image-Edit 输出图当前缺失，无法比较两者对规则建筑的实际效果。
+Qwen-Image-Edit：
 
-后续补充输出后，重点观察：
+![TC-04 优化版 Qwen](../../inputs/current_outputs/qwen-image-edit/TC04_OPT_P02_qwen_R01.png)
 
-- 是否识别正确建筑。
-- 是否理解正面、侧面和转角。
-- 航线是否沿建筑外形分布。
-- 路线是否连续。
-- 是否出现明显随机曲线。
-- 是否错误修改原图。
+HunyuanImage-3-Instruct：
 
-## 18. 异形建筑结果对比
+![TC-04 优化版 Hunyuan](../../inputs/current_outputs/hunyuanimage3-instruct/TC04_OPT_P02_hunyuan_R01.jpeg)
 
-当前可展示内容包括 TC-03、TC-04 原始图和参考效果。BAGEL 与 Qwen-Image-Edit 输出图当前缺失，无法比较两者对异形建筑的实际效果。
+## 16. 规则建筑结果对比
 
-后续补充输出后，重点观察：
+规则建筑结果展示对应：
 
-- 模型是否理解复杂建筑轮廓。
-- 航线是否随异形结构变化。
-- 是否存在穿过建筑内部的明显错误。
-- 多个体块之间的路线是否连贯。
-- 是否保留原图。
+- `TC-01 / 直译版`
+- `TC-01 / 针对图像编辑模型优化版`
+- `TC-02 / 直译版`
+- `TC-02 / 针对图像编辑模型优化版`
 
-## 19. 基础任务与优化任务对比
+## 17. 异形建筑结果对比
 
-基础任务关注模型是否能生成完整航线。优化任务额外关注 10 m 探测范围、减少重复扫描层、顶部补扫、辅助路线和覆盖范围表达。
+异形建筑结果展示对应：
+
+- `TC-03 / 直译版`
+- `TC-03 / 针对图像编辑模型优化版`
+- `TC-04 / 直译版`
+- `TC-04 / 针对图像编辑模型优化版`
+
+## 18. 基础任务与优化任务对比
+
+基础任务结果展示对应：
+
+- `TC-01 / 直译版`
+- `TC-01 / 针对图像编辑模型优化版`
+- `TC-03 / 直译版`
+- `TC-03 / 针对图像编辑模型优化版`
+
+优化任务结果展示对应：
+
+- `TC-02 / 直译版`
+- `TC-02 / 针对图像编辑模型优化版`
+- `TC-04 / 直译版`
+- `TC-04 / 针对图像编辑模型优化版`
 
 限制：单张普通图片无法恢复建筑真实尺度、完整深度和准确物理距离。10 m 覆盖范围只评价视觉上合理的覆盖优化示意，不验证真实距离，也不证明全局最短路径。
 
-## 20. 推理速度与部署条件
+## 19. 推理速度与部署条件
 
 | 模型 | 当前方式 | 硬件 | 量化/精度 | 耗时 | 说明 |
 | --- | --- | --- | --- | --- | --- |
 | BAGEL | 本地 | NVIDIA RTX 4070 Ti Super 16GB | NF4 | 约 75 秒/次 | 是否包含加载、预热和具体参数待确认 |
 | Qwen-Image-Edit | ModelScope 在线体验 | 未公开 | 未知 | 待确认 | 不可与本地 BAGEL 直接公平对比 |
+| HunyuanImage-3-Instruct | 腾讯混元官网在线体验 | 未公开 | 未知 | 待确认 | 在线体验结果，不可与本地 BAGEL 直接公平对比 |
 | FLUX.1 Kontext [dev] | 未测试 | 待服务器资源 | 待确认 | 待测试 | 仅资料调研 |
 | Step1X-Edit | 未测试 | 待服务器资源 | 待确认 | 待测试 | 仅资料调研 |
 | OmniGen2 | 未测试 | 待服务器资源 | 待确认 | 待测试 | 仅资料调研 |
 | FireRed-Image-Edit | 未测试 | 待服务器资源 | 待确认 | 待测试 | 仅资料调研 |
-| HunyuanImage | 未测试 | 待服务器资源 | 待确认 | 待测试 | 仅资料调研 |
 
-## 21. 当前定性观察
-
-当前阶段可以确认测试条件，但不能对缺失输出图片的实际效果做图像结论。
-
-可确认观察：
-
-- BAGEL NF4 已能够在本地完成特定图像编辑任务。
-- BAGEL 当前 75 秒/次延迟偏高。
-- Qwen-Image-Edit 可以通过 ModelScope 魔搭社区在线体验测试。
-- 当前更适合以图片可视化对比为核心，而不是做严格 benchmark。
-
-## 22. 生成式图像编辑方案的优势
+## 20. 生成式图像编辑方案的优势
 
 - 原型实现快。
 - 能够直接理解自然语言 Prompt。
@@ -359,7 +440,7 @@ Qwen-Image-Edit 输出：当前未在仓库中找到，等待补充到 `../../in
 - 输出直观，便于非技术人员理解。
 - 适合快速探索“用户想看到什么样的航线表达”。
 
-## 23. 生成式图像编辑方案的局限
+## 21. 生成式图像编辑方案的局限
 
 - 可能修改原图非航线区域。
 - 路线结构不稳定。
@@ -368,7 +449,7 @@ Qwen-Image-Edit 输出：当前未在仓库中找到，等待补充到 `../../in
 - 难以直接进入飞控系统。
 - 单张图片无法提供真实尺度、深度、遮挡和障碍物信息。
 
-## 24. 替代或混合技术路线
+## 22. 替代或混合技术路线
 
 ### 路线 A：生成式图像编辑
 
@@ -400,27 +481,20 @@ OpenCV 只负责最终绘制，不负责理解异形建筑。异形建筑理解�
 
 真实飞行仍需要尺度、相机参数、点云、Mesh、BIM、多视角信息、障碍物和无人机运动约束。
 
-## 25. 当前结论
+## 23. 当前说明
 
-1. BAGEL NF4 已能够在本地完成特定图像编辑任务。
-2. BAGEL 在 RTX 4070 Ti Super 16GB 上单次约 75 秒，当前延迟偏高。
-3. Qwen-Image-Edit 可以通过 ModelScope 魔搭社区在线体验进行测试。
+1. 当前报告以图片结果展示为核心，不输出总排名和综合分。
+2. 三种模型的输出格式和分辨率当前不一致，按原始导出结果保留。
+3. 当前每次生成均按默认参数处理，未单独记录详细推理参数。
 4. 在线体验结果不能与本地 BAGEL 构成严格公平的硬件性能对比。
-5. 当前阶段更适合比较模型生成图片的实际视觉效果。
-6. 当前尚无统一评分标准，因此不输出严格总分和模型排名。
-7. 当前模型结果属于无人机扫描路线示意图，不是可执行飞控航点。
-8. 是否继续部署 BAGEL 到更强 GPU，需要等待后续服务器条件和实际 profiling。
-9. 是否采用生成式编辑作为业务主链路，需要结合下游真正需要的输出形式继续判断。
+5. 当前模型输出属于无人机扫描路线示意图，不是可执行飞控航点。
 
-## 26. 后续工作
+## 24. 后续工作
 
-- 补充 BAGEL 输出图片到 `../../inputs/current_outputs/bagel/`。
-- 补充 Qwen-Image-Edit ModelScope 输出图片或页面截图。
-- 确认每次测试的模型版本、Prompt 版本、推理参数、输入输出分辨率和耗时口径。
-- 在服务器资源可用后测试 FLUX.1 Kontext [dev]、Step1X-Edit、OmniGen2、FireRed-Image-Edit 和 HunyuanImage。
-- 建立人工盲评标准。
+- 在服务器资源可用后测试 FLUX.1 Kontext [dev]、Step1X-Edit、OmniGen2、FireRed-Image-Edit。
+- 如有需要，再补充更完整的人工观察和筛选结论。
 - 评估“视觉理解 + 结构化路线 + 确定性绘制”的混合方案。
 
-## 27. 参考资料
+## 25. 参考资料
 
 来源明细见 [SOURCES.md](SOURCES.md)。

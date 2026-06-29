@@ -61,9 +61,10 @@
 
 - 官方仓库：https://github.com/Tencent-Hunyuan/HunyuanImage-3.0
 - 官方模型页：官方 README 链接到 Hugging Face 检查点，具体测试版本待确认。
+- 官方在线体验：腾讯混元官网在线体验。
 - 官方论文或技术报告：待确认。
 - 许可证来源：官方仓库。
-- 支撑内容：HunyuanImage 的 Instruct / Image-to-Image 相关能力、代码开放和权重开放状态。
+- 支撑内容：HunyuanImage 的 Instruct / Image-to-Image 相关能力、代码开放、权重开放状态和在线测试平台记录。
 - 是否完成许可证核验：未完成；商业使用状态待确认。
 
 ## 本仓库素材
